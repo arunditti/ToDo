@@ -13,16 +13,32 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <CheckBox
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <TextView
             android:id="@+id/tv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/tv_priority"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_gravity="center" />
+
+        <!-- A grey divider line at the bottom of each task -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
     </LinearLayout>
 
 </LinearLayout>

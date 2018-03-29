@@ -1,12 +1,19 @@
 package com.arunditti.android.todo;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+
+import com.arunditti.android.todo.data.TaskContract;
 
 /**
  * Created by arunditti on 3/27/18.
@@ -16,6 +23,7 @@ public class TaskCursorAdapter extends RecyclerView.Adapter<TaskCursorAdapter.Ta
 
     //Class variables for the cursor that holds context
     private Context mContext;
+    private Cursor mCursor;
 
     //Constructor for the TaskCursorAdapter that initializes the context
     public TaskCursorAdapter(Context context) {
@@ -51,6 +59,7 @@ public class TaskCursorAdapter extends RecyclerView.Adapter<TaskCursorAdapter.Ta
         //Class variables for the task description and task priority
         TextView textViewTaskDescription;
         TextView textViewTaskPriority;
+        CheckBox checkBoxTaskDone;
 
         //Constructor for the TaskViewHolder
         public TaskViewHolder(View itemView) {
@@ -58,6 +67,7 @@ public class TaskCursorAdapter extends RecyclerView.Adapter<TaskCursorAdapter.Ta
 
             textViewTaskDescription = (TextView) itemView.findViewById(R.id.tv_description);
             textViewTaskPriority = (TextView) itemView.findViewById(R.id.tv_priority);
+            checkBoxTaskDone = (CheckBox) itemView.findViewById(R.id.done);
         }
     }
 }

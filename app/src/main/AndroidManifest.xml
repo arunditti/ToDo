@@ -20,6 +20,14 @@
         <!-- AddTaskActivity-->
         <activity android:name=".AddTaskActivity"
             android:label="@string/add_task_activity_name"/>
+
+        <!-- Register the TaskContentProvider -->
+        <provider
+            android:authorities="com.arunditti.android.todo"
+            android:name="com.arunditti.android.todo.data.TaskContentProvider"
+            android:exported="false"/>
+
     </application>
+
 
 </manifest>

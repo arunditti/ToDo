@@ -49,8 +49,36 @@ public class TaskContentProvider extends ContentProvider{
 
     @Nullable
     @Override
-    public Cursor query(@NonNull Uri uri, @Nullable String[] strings, @Nullable String s, @Nullable String[] strings1, @Nullable String s1) {
-        return null;
+    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+        //Get access to task database read only for query
+        final SQLiteDatabase db = mTaskDbHelper.getReadableDatabase();
+
+        //Write Uri match code and set a variable to return a cursor
+        int match = sUriMatcher.match(uri);
+        Cursor returnCursor;
+
+        //Query for the tasks directory and write a default case
+        switch (match) {
+            //Query for the task directory
+            case TASKS:
+                returnCursor = db.query(TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+                break;
+
+                //Default exception
+            default:
+                throw new IllegalArgumentException("Unknown Uri: " + uri);
+        }
+        //Set a notification URI on the cursor and return the cursor
+        returnCursor.setNotificationUri(getContext().getContentResolver(), uri);
+
+        //Return the desired cursor
+        return returnCursor;
     }
 
     @Nullable
@@ -92,8 +120,34 @@ public class TaskContentProvider extends ContentProvider{
     }
 
     @Override
-    public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+
+        //Get access to the database and write URI matching code to recognize a single item
+        final SQLiteDatabase db = mTaskDbHelper.getWritableDatabase();
+
+        int match = sUriMatcher.match(uri);
+        //Keep track of the number of deleted tasks
+        int taskDeleted; //starts as 0
+
+        //Write the code to delete a single row of data
+        switch (match) {
+            case TASK_WITH_ID:
+                //Get task ID from the uri path
+                String id = uri.getPathSegments().get(1);
+                //Use selection and selectionArgs to filter for this ID
+                taskDeleted = db.delete(TABLE_NAME, "_id=?", new String[]{id});
+                break;
+                default:
+                    throw new UnsupportedOperationException("Unknown uri: " +uri);
+        }
+
+        //Notify the resolver of the change and return the number of items deleted
+        if(taskDeleted != 0) {
+            //A task was deleted, set notification
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        //Return the number of task deleted
+        return taskDeleted;
     }
 
     @Override

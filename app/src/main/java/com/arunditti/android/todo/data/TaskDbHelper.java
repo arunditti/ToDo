@@ -19,7 +19,7 @@ public class TaskDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "tasksDb.db";
 
     //Database version which needs to be changed if you change schema
-    private static final int VERSION = 1;
+    private static final int VERSION = 3;
 
     public TaskDbHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
@@ -35,7 +35,6 @@ public class TaskDbHelper extends SQLiteOpenHelper {
                 TaskEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, " +
                 TaskEntry.COLUMN_PRIORITY    + " INTEGER NOT NULL, " +
                 TaskEntry.COLUMN_DONE   + " BOOLEAN NOT NULL);";
-
 
         sqLiteDatabase.execSQL(CREATE_TABLE);
     }
